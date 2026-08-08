@@ -190,34 +190,22 @@ a, button {
 }
 
 .nav-logo {
-    font-family: 'Space Mono', monospace;
-    font-size: 24px;
-    font-weight: 700;
+    display: flex;
+    align-items: center;
 }
 
-.logo-bracket {
-    color: var(--neon-cyan);
-    transition: transform 0.3s ease;
+.nav-logo-img {
+    height: 48px; /* Slightly larger usually looks better for rounded logos */
+    width: 48px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid var(--neon-cyan); /* Add a cool neon border to match the theme */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.nav-logo:hover .logo-bracket {
-    display: inline-block;
-    animation: glitch 0.3s ease;
-}
-
-.logo-text {
-    background: linear-gradient(135deg, var(--neon-cyan), var(--neon-magenta));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-
-@keyframes glitch {
-    0%, 100% { transform: translateX(0); }
-    20% { transform: translateX(-2px); }
-    40% { transform: translateX(2px); }
-    60% { transform: translateX(-1px); }
-    80% { transform: translateX(1px); }
+.nav-logo:hover .nav-logo-img {
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(0, 240, 255, 0.5); /* Neon glow effect on hover */
 }
 
 .nav-links {
