@@ -11,12 +11,12 @@ canvas.height = canvas.clientHeight;
 
 let config = {
   TEXTURE_DOWNSAMPLE: 1,
-  DENSITY_DISSIPATION: 0.98,
-  VELOCITY_DISSIPATION: 0.99,
-  PRESSURE_DISSIPATION: 0.8,
-  PRESSURE_ITERATIONS: 25,
-  CURL: 28,
-  SPLAT_RADIUS: 0.004
+  DENSITY_DISSIPATION: 0.995,
+  VELOCITY_DISSIPATION: 0.95,
+  PRESSURE_DISSIPATION: 0.9,
+  PRESSURE_ITERATIONS: 15,
+  CURL: 10,
+  SPLAT_RADIUS: 0.002
 };
 
 let pointers = [];
@@ -592,7 +592,7 @@ function splat(x, y, dx, dy, color) {
   velocity.swap();
 
   gl.uniform1i(splatProgram.uniforms.uTarget, density.read[2]);
-  gl.uniform3f(splatProgram.uniforms.color, color[0] * 0.3, color[1] * 0.3, color[2] * 0.3);
+  gl.uniform3f(splatProgram.uniforms.color, color[0] * 0.08, color[1] * 0.08, color[2] * 0.08);
   blit(density.write[1]);
   density.swap();
 }
