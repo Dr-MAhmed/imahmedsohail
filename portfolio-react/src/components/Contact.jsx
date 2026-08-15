@@ -14,7 +14,9 @@ export default function Contact() {
     const formRef = useRef(null);
     const [isSent, setIsSent] = useState(false);
 
-    const handleSubmit = (e) => {
+
+//Form Submission Handler
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         const form = formRef.current;
@@ -26,14 +28,26 @@ export default function Contact() {
             return;
         }
 
-        // Show success state
-        setIsSent(true);
+        const formData = new FormData(e.target);
+        formData.append("access_key", "91f377a1-ecd0-44e7-86ce-a28b68d30877");
 
-        // Reset after 3 seconds
-        setTimeout(() => {
-            setIsSent(false);
-            form.reset();
-        }, 3000);
+        const response = await fetch("https://api.web3forms.com/submit", {
+            method: "POST",
+            body: formData
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+            // Show success state
+            setIsSent(true);
+
+            // Reset after 3 seconds
+            setTimeout(() => {
+                setIsSent(false);
+                form.reset();
+            }, 3000);
+        }
     };
 
     return (
