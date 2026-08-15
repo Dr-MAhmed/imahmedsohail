@@ -1,49 +1,69 @@
 import { useEffect } from 'react';
 
 /**
- * Skill-bar animation — fixes the original script.js "initSkillAnimation" bug.
+ * Scroll-linked skill-bar animation.
  *
- * The original read `data-skill` from `.skill-progress`, but the attribute
- * lives on the parent `.skill-item`, so the bars never filled (width: null%).
- * This hook reads the attribute from the parent via closest('.skill-item')
- * and animates each bar to its percentage when it scrolls into view,
- * matching the behavior the original clearly intended.
+ * Each `.skill-progress` bar fills toward its `data-skill` target (read from
+ * the parent `.skill-item`, fixing the original script.js bug) in direct
+ * proportion to how far it has scrolled through the viewport:
+ *   - 0% when the bar enters at the bottom edge of the screen
+ *   - target% when it reaches the top edge of the screen
+ *
+ * Scrolling back up reverses it, so the bars track your scroll position.
+ * A short 0.15s transition (inline, overriding the CSS 1s one) keeps the
+ * fill smooth without lag behind the scroll.
  */
 export function useSkillBars(ref) {
     useEffect(() => {
         const container = ref.current;
         if (!container) return;
 
-        const bars = container.querySelectorAll('.skill-progress');
-        const timers = [];
+        const bars = Array.from(container.querySelectorAll('.skill-progress'));
 
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        const bar = entry.target;
-                        // FIX: read data-skill from the parent .skill-item
-                        const skillItem = bar.closest('.skill-item');
-                        const width = (skillItem ? skillItem.getAttribute('data-skill') : '0') + '%';
+        const getTarget = (bar) => {
+            const item = bar.closest('.skill-item');
+            const val = item ? parseInt(item.getAttribute('data-skill'), 10) : 0;
+            return Number.isFinite(val) ? val : 0;
+        };
 
-                        bar.style.width = '0%';
-                        const t = setTimeout(() => {
-                            bar.style.width = width;
-                        }, 300);
-                        timers.push(t);
+        const targets = bars.map(getTarget);
 
-                        observer.unobserve(bar);
-                    }
-                });
-            },
-            { threshold: 0.3 }
-        );
+        bars.forEach((bar) => {
+            bar.style.transition = 'width 0.15s ease-out';
+        });
 
-        bars.forEach((bar) => observer.observe(bar));
+        let rafId = null;
+
+        const update = () => {
+            rafId = null;
+            const vh = window.innerHeight;
+
+            bars.forEach((bar, i) => {
+                const rect = bar.getBoundingClientRect();
+                // 0 when the bar's top is at the bottom edge of the viewport,
+                // 1 when it reaches the top edge.
+                let progress = 1 - rect.top / vh;
+                if (progress < 0) progress = 0;
+                if (progress > 1) progress = 1;
+
+                bar.style.width = `${(targets[i] * progress).toFixed(1)}%`;
+            });
+        };
+
+        const schedule = () => {
+            if (rafId === null) {
+                rafId = requestAnimationFrame(update);
+            }
+        };
+
+        update();
+        window.addEventListener('scroll', schedule, { passive: true });
+        window.addEventListener('resize', schedule);
 
         return () => {
-            observer.disconnect();
-            timers.forEach(clearTimeout);
+            window.removeEventListener('scroll', schedule);
+            window.removeEventListener('resize', schedule);
+            if (rafId !== null) cancelAnimationFrame(rafId);
         };
     }, [ref]);
 }

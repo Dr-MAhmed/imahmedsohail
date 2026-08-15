@@ -2,13 +2,14 @@ import { useRef } from 'react';
 import { useSkillBars } from '../hooks/useSkillBars';
 
 /**
- * Faithful port of the original #skills section, with the skill-bar bug fixed.
+ * Faithful port of the original #skills section, with the skill-bar bug fixed
+ * and a scroll-linked animation added.
  *
  * The original script.js read `data-skill` from `.skill-progress` elements,
  * but the attribute lives on the parent `.skill-item` — so the bars stayed at
- * width 0. This version (via useSkillBars) reads from the parent and animates
- * each bar to its percentage when it scrolls into view, matching the behavior
- * the original clearly intended.
+ * width 0. useSkillBars reads the target from the parent and fills each bar in
+ * sync with scroll position: 0% as it enters the viewport, target% as it
+ * reaches the top of the screen.
  */
 
 const SKILL_CATEGORIES = [
