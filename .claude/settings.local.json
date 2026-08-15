@@ -3,7 +3,13 @@
     "allow": [
       "Bash(curl -s http://localhost:8000/projects.js)",
       "Bash(curl -s http://localhost:8000/index.html)",
-      "Bash(curl -s http://localhost:8000/script.js)"
+      "Bash(curl -s http://localhost:8000/script.js)",
+      "Bash(git add *)",
+      "Bash(git commit -m 'feat: update skills section with AI, n8n, and CI/CD *)",
+      "Bash(git push *)",
+      "Bash(curl -s http://localhost:8000)",
+      "Bash(curl -s http://localhost:8000/cursor-trail.js)",
+      "WebFetch(domain:lightswind.com)"
     ]
   }
 }

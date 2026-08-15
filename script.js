@@ -85,20 +85,75 @@
     // ==========================================
     const cursor = document.querySelector('.cursor');
     const cursorDot = document.querySelector('.cursor-dot');
+    let lastX = 0;
+    let lastY = 0;
 
     if (cursor && cursorDot) {
         // Create cursor on mouse move
         document.addEventListener('mousemove', (e) => {
-            cursor.style.left = (e.clientX - 10) + 'px';
-            cursor.style.top = (e.clientY - 10) + 'px';
-            cursorDot.style.left = (e.clientX - 3) + 'px';
-            cursorDot.style.top = (e.clientY - 3) + 'px';
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+
+            cursor.style.left = mouseX + 'px';
+            cursor.style.top = mouseY + 'px';
+            cursorDot.style.left = mouseX + 'px';
+            cursorDot.style.top = mouseY + 'px';
+
+            // Create smoke particles every 5px of movement
+            const distance = Math.hypot(mouseX - lastX, mouseY - lastY);
+            if (distance > 5) {
+                createSmokeParticle(mouseX, mouseY);
+                lastX = mouseX;
+                lastY = mouseY;
+            }
         });
 
         // Hide default cursor
         document.body.style.cursor = 'none';
     } else {
         console.warn('Cursor elements not found');
+    }
+
+    // Create smoke particle effect
+    function createSmokeParticle(x, y) {
+        const smoke = document.createElement('div');
+        smoke.className = 'cursor-smoke';
+
+        // Random size between 8px and 20px
+        const size = Math.random() * 12 + 8;
+        smoke.style.width = size + 'px';
+        smoke.style.height = size + 'px';
+        smoke.style.left = x + 'px';
+        smoke.style.top = y + 'px';
+
+        // Random colors (cyan and magenta)
+        const colors = [
+            'rgba(0, 240, 255, 0.6)',  // cyan
+            'rgba(255, 0, 170, 0.5)',  // magenta
+            'rgba(168, 85, 247, 0.5)'  // violet
+        ];
+        smoke.style.background = colors[Math.floor(Math.random() * colors.length)];
+        smoke.style.filter = `blur(${Math.random() * 2 + 1}px)`;
+
+        // Random direction for drift
+        const angle = Math.random() * Math.PI * 2;
+        const velocity = Math.random() * 40 + 20;
+        const tx = Math.cos(angle) * velocity;
+        const ty = Math.sin(angle) * velocity - 30;
+
+        smoke.style.setProperty('--tx', tx + 'px');
+        smoke.style.setProperty('--ty', ty + 'px');
+
+        // Random animation duration
+        const duration = Math.random() * 600 + 400;
+        smoke.style.animation = `smokeRise ${duration}ms ease-out forwards`;
+
+        document.body.appendChild(smoke);
+
+        // Remove particle from DOM after animation
+        setTimeout(() => {
+            smoke.remove();
+        }, duration);
     }
 
     // ==========================================

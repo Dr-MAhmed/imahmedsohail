@@ -1,0 +1,89 @@
+import { useRef } from 'react';
+import { useSkillBars } from '../hooks/useSkillBars';
+
+/**
+ * Faithful port of the original #skills section, with the skill-bar bug fixed
+ * and a scroll-linked animation added.
+ *
+ * The original script.js read `data-skill` from `.skill-progress` elements,
+ * but the attribute lives on the parent `.skill-item` — so the bars stayed at
+ * width 0. useSkillBars reads the target from the parent and fills each bar in
+ * sync with scroll position: 0% as it enters the viewport, target% as it
+ * reaches the top of the screen.
+ */
+
+const SKILL_CATEGORIES = [
+    {
+        icon: '🎨',
+        title: 'Frontend',
+        skills: [
+            { name: 'React / Next.js', percent: '95' },
+            { name: 'TypeScript', percent: '90' },
+            { name: 'Tailwind CSS', percent: '88' },
+        ],
+    },
+    {
+        icon: '⚙️',
+        title: 'Backend & AI',
+        skills: [
+            { name: 'Node.js / Express', percent: '92' },
+            { name: 'AI Integration (LLMs)', percent: '85' },
+            { name: 'n8n Workflow Automation', percent: '87' },
+        ],
+    },
+    {
+        icon: '🗄️',
+        title: 'Database',
+        skills: [
+            { name: 'MongoDB', percent: '90' },
+            { name: 'PostgreSQL', percent: '85' },
+            { name: 'Redis', percent: '80' },
+        ],
+    },
+    {
+        icon: '🚀',
+        title: 'DevOps',
+        skills: [
+            { name: 'CI/CD Pipelines', percent: '90' },
+            { name: 'Docker', percent: '88' },
+            { name: 'AWS', percent: '82' },
+        ],
+    },
+];
+
+export default function Skills() {
+    const containerRef = useRef(null);
+    useSkillBars(containerRef);
+
+    return (
+        <section id="skills" className="skills">
+            <div className="section-header">
+                <span className="section-tag">03</span>
+                <h2 className="section-title">Skills & Tools</h2>
+            </div>
+            <div className="skills-container" ref={containerRef}>
+                {SKILL_CATEGORIES.map((category) => (
+                    <div className="skill-category" key={category.title}>
+                        <h3 className="category-title">
+                            <span className="category-icon">{category.icon}</span>
+                            {category.title}
+                        </h3>
+                        <div className="skill-items">
+                            {category.skills.map((skill) => (
+                                <div className="skill-item" data-skill={skill.percent} key={skill.name}>
+                                    <div className="skill-info">
+                                        <span className="skill-name">{skill.name}</span>
+                                        <span className="skill-percent">{skill.percent}%</span>
+                                    </div>
+                                    <div className="skill-bar">
+                                        <div className="skill-progress"></div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </section>
+    );
+}
