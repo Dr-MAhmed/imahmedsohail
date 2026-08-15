@@ -1,30 +1,55 @@
 import { useEffect } from 'react';
 
 /**
- * Faithful port of script.js "animateCounters" (section 3).
- * Animates every [data-count] element from 0 up to its target value.
- * Runs once on mount, exactly like the original site.
+ * Animated counters for the hero stats (Projects 15+, Years Exp 3+,
+ * Technologies 12+).
+ *
+ * Upgraded from the original script.js "animateCounters":
+ *   - Triggers when the element scrolls into view (IntersectionObserver),
+ *     instead of blindly running on page load.
+ *   - Counts 0 → target with an easeOutCubic curve over ~1.6s, so the
+ *     animation is smooth and clearly visible.
+ *   - The trailing "+" is already rendered by CSS (`.stat-number::after`).
  */
 export function useCounters() {
     useEffect(() => {
-        const intervals = [];
+        const elements = document.querySelectorAll('[data-count]');
+        if (!elements.length) return;
 
-        document.querySelectorAll('[data-count]').forEach((el) => {
-            const target = parseInt(el.getAttribute('data-count'), 10);
-            let current = 0;
-            const step = Math.ceil(target / 60);
+        const DURATION = 1600;
 
-            const timer = setInterval(() => {
-                current += step;
-                if (current >= target) {
-                    current = target;
-                    clearInterval(timer);
+        function animate(el) {
+            const target = parseInt(el.getAttribute('data-count'), 10) || 0;
+            const start = performance.now();
+
+            function tick(now) {
+                const elapsed = now - start;
+                const progress = Math.min(elapsed / DURATION, 1);
+                // easeOutCubic
+                const eased = 1 - Math.pow(1 - progress, 3);
+                el.textContent = Math.round(target * eased);
+
+                if (progress < 1) {
+                    requestAnimationFrame(tick);
                 }
-                el.textContent = current;
-            }, 30);
-            intervals.push(timer);
-        });
+            }
+            requestAnimationFrame(tick);
+        }
 
-        return () => intervals.forEach(clearInterval);
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        animate(entry.target);
+                        observer.unobserve(entry.target);
+                    }
+                });
+            },
+            { threshold: 0.4 }
+        );
+
+        elements.forEach((el) => observer.observe(el));
+
+        return () => observer.disconnect();
     }, []);
 }

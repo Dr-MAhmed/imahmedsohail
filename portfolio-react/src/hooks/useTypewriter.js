@@ -6,11 +6,12 @@ import { useEffect } from 'react';
  * referenced by `ref`, followed by the blinking terminal cursor.
  */
 const WORDS = [
-    "Full-Stack Developer.",
-    "Building robust backend pipelines.",
-    "Crafting pixel-perfect frontend experiences.",
-    "Exploring web interfaces and animations.",
-    "Turning complex ideas into simple code."
+    "MERN Stack Developer",
+    "Cloud & DevOps Enthusiast",
+    "Software Engineer",
+    "Turning Code Into Products",
+    "Architecting Digital Innovations",
+    "Backend Engineer"
 ];
 
 export function useTypewriter(ref) {

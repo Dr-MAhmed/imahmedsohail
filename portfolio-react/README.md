@@ -88,26 +88,29 @@ including its bugs. Nothing was "improved" or redesigned.
    from the parent and fills each bar in **sync with scroll position** — 0%
    when it enters the viewport, up to its target percentage when it reaches
    the top of the screen, reversing smoothly when you scroll back up.
-2. **Mobile hamburger does nothing.** The original never wired a click handler
+2. **Hero stat counters animate.** Projects **15+**, Years Exp **3+**,
+   Technologies **12+** count up from 0 with a smooth ease-out curve when the
+   hero stats scroll into view (the "+" is added by CSS).
+3. **Mobile hamburger does nothing.** The original never wired a click handler
    to `.nav-menu-btn`, so nav links stay hidden on ≤768px. Preserved.
-3. **Filter buttons don't filter.** They only toggle the `active` class;
+4. **Filter buttons don't filter.** They only toggle the `active` class;
    projects.js never implemented grid filtering. Preserved.
-4. **Project grid starts with 3 cards.** "View All Projects" reveals the rest
+5. **Project grid starts with 3 cards.** "View All Projects" reveals the rest
    with the same staggered fade/slide animation; "Show Less" removes them the
    same way. Preserved.
-5. **Default cursor + fluid smoke trail.** The browser's default cursor is
+6. **Default cursor + fluid smoke trail.** The browser's default cursor is
    used everywhere (no custom cursor). The **WebGL fluid simulation** from
    `src/components/lightswind/smokey-cursor.jsx` runs as a full-screen
    overlay — colorful smoke trails the mouse. The overlay is
    `pointer-events: none`, so it never blocks clicks and never hides the
    cursor. The floating particle field still runs behind it.
-6. **Scroll-reveal classes are unused.** No element in the markup carries
+7. **Scroll-reveal classes are unused.** No element in the markup carries
    `.fade-in`/`.stagger-children`, so the reveal observer is a no-op.
-7. **Contact form is a simulation.** Submitting with name + email shows a
+8. **Contact form is a simulation.** Submitting with name + email shows a
    green "Message Sent!" button for 3 seconds, then resets. No message is sent.
-8. **Code-window parallax is overridden** by the `floatWindow` CSS animation;
+9. **Code-window parallax is overridden** by the `floatWindow` CSS animation;
    only the hero's subtle translate moves. Preserved.
-9. **Fonts** are Space Grotesk + Space Mono (as loaded by the original
+10. **Fonts** are Space Grotesk + Space Mono (as loaded by the original
    `index.html`). The SPEC.md references different fonts, but the running site
    used these.
 
