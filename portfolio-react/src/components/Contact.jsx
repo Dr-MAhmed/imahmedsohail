@@ -49,17 +49,17 @@ export default function Contact() {
                         I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision. Let's build something amazing together.
                     </p>
                     <div className="contact-links">
-                        <a href="mailto:hello@example.com" className="contact-link">
+                        <a href="mailto:imahmedhc@gmail.com" className="contact-link">
                             <span className="link-icon">📧</span>
-                            <span className="link-text">hello@example.com</span>
+                            <span className="link-text">imahmedhc@gmail.com</span>
                         </a>
-                        <a href="https://github.com" target="_blank" rel="noreferrer" className="contact-link">
+                        <a href="https://github.com/Dr-MAhmed" target="_blank" rel="noreferrer" className="contact-link">
                             <span className="link-icon">💻</span>
-                            <span className="link-text">github.com/imahmedsohail</span>
+                            <span className="link-text">github.com/Dr-MAhmed</span>
                         </a>
-                        <a href="https://linkedin.com" target="_blank" rel="noreferrer" className="contact-link">
+                        <a href="https://www.linkedin.com/in/muhammad-ahmed-726705261/" target="_blank" rel="noreferrer" className="contact-link">
                             <span className="link-icon">💼</span>
-                            <span className="link-text">linkedin.com/in/imahmedsohail</span>
+                            <span className="link-text">linkedin.com/in/muhammad-ahmed</span>
                         </a>
                     </div>
                 </div>
