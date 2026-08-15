@@ -70,6 +70,7 @@ portfolio-react/
     │   └── useRoundedFavicon.js rounded favicon generator
     └── components/
         ├── FluidBackground.jsx floating particle field background
+        ├── lightswind/smokey-cursor.jsx  WebGL fluid smoke trail (mouse move)
         ├── Navbar.jsx  Hero.jsx  About.jsx
         ├── Projects.jsx  Skills.jsx  Contact.jsx  Footer.jsx
 ```
@@ -94,11 +95,12 @@ including its bugs. Nothing was "improved" or redesigned.
 4. **Project grid starts with 3 cards.** "View All Projects" reveals the rest
    with the same staggered fade/slide animation; "Show Less" removes them the
    same way. Preserved.
-5. **Default cursor restored.** The custom arrow cursor, smoke trail, and
-   WebGL fluid simulation were removed — the browser's default cursor is used
-   everywhere. (The unused `CustomCursor.jsx` and
-   `lightswind/smokey-cursor.jsx` files are still on disk but no longer
-   imported, so they are not part of the build.)
+5. **Default cursor + fluid smoke trail.** The browser's default cursor is
+   used everywhere (no custom cursor). The **WebGL fluid simulation** from
+   `src/components/lightswind/smokey-cursor.jsx` runs as a full-screen
+   overlay — colorful smoke trails the mouse. The overlay is
+   `pointer-events: none`, so it never blocks clicks and never hides the
+   cursor. The floating particle field still runs behind it.
 6. **Scroll-reveal classes are unused.** No element in the markup carries
    `.fade-in`/`.stagger-children`, so the reveal observer is a no-op.
 7. **Contact form is a simulation.** Submitting with name + email shows a
@@ -108,6 +110,56 @@ including its bugs. Nothing was "improved" or redesigned.
 9. **Fonts** are Space Grotesk + Space Mono (as loaded by the original
    `index.html`). The SPEC.md references different fonts, but the running site
    used these.
+
+## SmokeyCursor component
+
+The fluid effect is `src/components/lightswind/smokey-cursor.jsx` — implemented
+from the provided lightswind source, adapted for this JSX/Vite project
+(TS types stripped, Tailwind classes → inline styles). Import it with the `@`
+alias:
+
+```jsx
+import SmokeyCursor from '@/components/lightswind/smokey-cursor';
+
+// Basic usage — full-screen overlay
+<SmokeyCursor />
+
+// Custom simulation quality
+<SmokeyCursor simulationResolution={256} dyeResolution={1024} enableShading />
+
+// High quality desktop experience
+<SmokeyCursor
+  simulationResolution={256}
+  dyeResolution={2048}
+  densityDissipation={2}
+  curl={5}
+  splatForce={8000}
+/>
+
+// Intense fire-like effect
+<SmokeyCursor
+  curl={10}
+  splatForce={12000}
+  densityDissipation={1.5}
+  colorUpdateSpeed={20}
+  backgroundColor={{ r: 0.8, g: 0.1, b: 0 }}
+/>
+
+// Subtle ambient effect
+<SmokeyCursor
+  splatRadius={0.1}
+  splatForce={3000}
+  densityDissipation={8}
+  velocityDissipation={5}
+  colorUpdateSpeed={5}
+/>
+```
+
+Props: `simulationResolution`, `dyeResolution`, `captureResolution`,
+`densityDissipation`, `velocityDissipation`, `pressure`, `pressureIterations`,
+`curl`, `splatRadius`, `splatForce`, `enableShading`, `colorUpdateSpeed`,
+`backgroundColor`, `transparent`, `className`, `disabled`, `intensity`,
+`followMouse`, `autoColors`.
 
 ## Not ported
 

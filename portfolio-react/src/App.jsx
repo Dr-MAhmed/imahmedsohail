@@ -1,6 +1,7 @@
 import './styles/global.css';
 
 import FluidBackground from './components/FluidBackground';
+import SmokeyCursor from '@/components/lightswind/smokey-cursor';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import About from './components/About';
@@ -26,6 +27,9 @@ export default function App() {
     <>
       {/* Floating particle field background */}
       <FluidBackground />
+
+      {/* WebGL fluid smoke trail (mouse movement) */}
+      <SmokeyCursor />
 
       {/* Gradient orbs */}
       <div className="orb orb-1"></div>
