@@ -1,11 +1,14 @@
+import { useRef } from 'react';
+import { useSkillBars } from '../hooks/useSkillBars';
+
 /**
- * Faithful port of the original #skills section.
+ * Faithful port of the original #skills section, with the skill-bar bug fixed.
  *
- * NOTE: the skill bars are intentionally left at their default `width: 0`.
- * The original script.js tried to read `data-skill` from `.skill-progress`
- * elements, but the attribute lives on the parent `.skill-item`, so the bars
- * never filled in the original site. Per the "replicate exactly" decision,
- * that behavior is preserved here.
+ * The original script.js read `data-skill` from `.skill-progress` elements,
+ * but the attribute lives on the parent `.skill-item` — so the bars stayed at
+ * width 0. This version (via useSkillBars) reads from the parent and animates
+ * each bar to its percentage when it scrolls into view, matching the behavior
+ * the original clearly intended.
  */
 
 const SKILL_CATEGORIES = [
@@ -48,13 +51,16 @@ const SKILL_CATEGORIES = [
 ];
 
 export default function Skills() {
+    const containerRef = useRef(null);
+    useSkillBars(containerRef);
+
     return (
         <section id="skills" className="skills">
             <div className="section-header">
                 <span className="section-tag">03</span>
                 <h2 className="section-title">Skills & Tools</h2>
             </div>
-            <div className="skills-container">
+            <div className="skills-container" ref={containerRef}>
                 {SKILL_CATEGORIES.map((category) => (
                     <div className="skill-category" key={category.title}>
                         <h3 className="category-title">

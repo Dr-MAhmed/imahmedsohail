@@ -82,9 +82,11 @@ portfolio-react/
 The conversion intentionally preserves the original site's actual behavior,
 including its bugs. Nothing was "improved" or redesigned.
 
-1. **Skill bars never fill.** The original read `data-skill` from
-   `.skill-progress` while the attribute lives on `.skill-item`, so the bars
-   stay empty. Preserved.
+1. ~~Skill bars never fill~~ — **Fixed.** The original read `data-skill`
+   from the wrong element (`.skill-progress` instead of its parent
+   `.skill-item`), so the bars stayed empty. The React version reads from the
+   parent and animates each bar to its percentage when it scrolls into view —
+   the behavior the original clearly intended.
 2. **Mobile hamburger does nothing.** The original never wired a click handler
    to `.nav-menu-btn`, so nav links stay hidden on ≤768px. Preserved.
 3. **Filter buttons don't filter.** They only toggle the `active` class;
