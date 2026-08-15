@@ -69,8 +69,7 @@ portfolio-react/
     │   ├── useParallax.js     hero mouse parallax
     │   └── useRoundedFavicon.js rounded favicon generator
     └── components/
-        ├── CustomCursor.jsx   .cursor / .cursor-dot / smoke trail
-        ├── FluidBackground.jsx particle field + inert #smokey-cursor canvas
+        ├── FluidBackground.jsx floating particle field background
         ├── Navbar.jsx  Hero.jsx  About.jsx
         ├── Projects.jsx  Skills.jsx  Contact.jsx  Footer.jsx
 ```
@@ -95,12 +94,11 @@ including its bugs. Nothing was "improved" or redesigned.
 4. **Project grid starts with 3 cards.** "View All Projects" reveals the rest
    with the same staggered fade/slide animation; "Show Less" removes them the
    same way. Preserved.
-5. **No WebGL fluid.** The original `cursor-trail.js` crashes with a
-   `ReferenceError` before the fluid can render, so the visible background is
-   the cyan/magenta particle field (`#particles`). The React port reproduces
-   the actual outcome: the particle field runs and the `#smokey-cursor` canvas
-   exists but is inert. (If you'd like the fluid effect, the shader code is in
-   the original `cursor-trail.js` and can be enabled.)
+5. **Default cursor restored.** The custom arrow cursor, smoke trail, and
+   WebGL fluid simulation were removed — the browser's default cursor is used
+   everywhere. (The unused `CustomCursor.jsx` and
+   `lightswind/smokey-cursor.jsx` files are still on disk but no longer
+   imported, so they are not part of the build.)
 6. **Scroll-reveal classes are unused.** No element in the markup carries
    `.fade-in`/`.stagger-children`, so the reveal observer is a no-op.
 7. **Contact form is a simulation.** Submitting with name + email shows a

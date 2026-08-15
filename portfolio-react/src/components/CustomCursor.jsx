@@ -1,18 +1,18 @@
 import { useEffect, useRef } from 'react';
 
 /**
- * Faithful port of script.js section 2 (CURSOR) + the smoke particle trail.
- * Renders the exact same `.cursor` and `.cursor-dot` elements and spawns
- * `.cursor-smoke` divs on document mousemove, appended to <body>.
+ * Custom cursor — a neon cyan→magenta gradient arrow with a glow, replacing
+ * the original circle + dot. The arrow tip is anchored at the mouse point.
+ *
+ * The smoke trail (`.cursor-smoke` divs) from the original script.js section 2
+ * still spawns as the cursor moves.
  */
 export default function CustomCursor() {
     const cursorRef = useRef(null);
-    const cursorDotRef = useRef(null);
 
     useEffect(() => {
         const cursor = cursorRef.current;
-        const cursorDot = cursorDotRef.current;
-        if (!cursor || !cursorDot) return;
+        if (!cursor) return;
 
         let lastX = 0;
         let lastY = 0;
@@ -68,8 +68,6 @@ export default function CustomCursor() {
 
             cursor.style.left = mouseX + 'px';
             cursor.style.top = mouseY + 'px';
-            cursorDot.style.left = mouseX + 'px';
-            cursorDot.style.top = mouseY + 'px';
 
             // Create smoke particles every 5px of movement
             const distance = Math.hypot(mouseX - lastX, mouseY - lastY);
@@ -89,9 +87,22 @@ export default function CustomCursor() {
     }, []);
 
     return (
-        <>
-            <div className="cursor" ref={cursorRef}></div>
-            <div className="cursor-dot" ref={cursorDotRef}></div>
-        </>
+        <div className="cursor" ref={cursorRef}>
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="cursorGradient" x1="0" y1="0" x2="1" y2="1">
+                        <stop offset="0%" stopColor="#00f0ff" />
+                        <stop offset="100%" stopColor="#ff00aa" />
+                    </linearGradient>
+                </defs>
+                <path
+                    d="M4.5 3.6 19.6 11.8 12.9 13.6 16.2 20.4 13.7 21.6 10.4 14.8 4.5 18.4Z"
+                    fill="url(#cursorGradient)"
+                    stroke="#ffffff"
+                    strokeWidth="1"
+                    strokeLinejoin="round"
+                />
+            </svg>
+        </div>
     );
 }

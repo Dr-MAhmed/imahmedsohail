@@ -1,6 +1,5 @@
 import './styles/global.css';
 
-import CustomCursor from './components/CustomCursor';
 import FluidBackground from './components/FluidBackground';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
@@ -25,11 +24,7 @@ export default function App() {
 
   return (
     <>
-      {/* Custom cursor + cursor-dot (same elements as the original <body>) */}
-      <CustomCursor />
-
-      {/* Background effects: visible particle field + inert #smokey-cursor canvas
-          (faithful to the original's actual runtime behavior) */}
+      {/* Floating particle field background */}
       <FluidBackground />
 
       {/* Gradient orbs */}
