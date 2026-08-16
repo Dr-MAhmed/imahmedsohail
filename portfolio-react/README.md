@@ -60,7 +60,7 @@ portfolio-react/
     ├── main.jsx               React root (StrictMode intentionally omitted)
     ├── App.jsx                assembles all sections
     ├── styles/global.css      the original styles.css, copied verbatim
-    ├── data/projects.js       the 15 project records as an ES module
+    ├── data/projects.js       project records (21 total) as an ES module
     ├── hooks/
     │   ├── useTypewriter.js   hero typing loop
     │   ├── useCounters.js     hero stat counters
