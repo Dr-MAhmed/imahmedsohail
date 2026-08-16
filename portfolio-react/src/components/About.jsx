@@ -34,10 +34,10 @@ export default function About() {
                             <div className="orbit-item" style={{ '--i': '3' }}>🐳</div>
                         </div>
                         <div className="orbit-ring ring-2">
-                            <div className="orbit-item" style={{ '--i': '0' }}>📊</div>
-                            <div className="orbit-item" style={{ '--i': '1' }}>☁️</div>
-                            <div className="orbit-item" style={{ '--i': '2' }}>🔐</div>
-                            <div className="orbit-item" style={{ '--i': '3' }}>🎨</div>
+                            <div className="orbit-item" style={{ '--i': '0' }}>🔷</div>
+                            <div className="orbit-item" style={{ '--i': '1' }}>🍃</div>
+                            <div className="orbit-item" style={{ '--i': '2' }}>☁️</div>
+                            <div className="orbit-item" style={{ '--i': '3' }}>📘</div>
                         </div>
                     </div>
                 </div>
