@@ -60,7 +60,7 @@ portfolio-react/
     ├── main.jsx               React root (StrictMode intentionally omitted)
     ├── App.jsx                assembles all sections
     ├── styles/global.css      the original styles.css, copied verbatim
-    ├── data/projects.js       the 15 project records as an ES module
+    ├── data/projects.js       project records (21 total) as an ES module
     ├── hooks/
     │   ├── useTypewriter.js   hero typing loop
     │   ├── useCounters.js     hero stat counters
@@ -91,8 +91,10 @@ including its bugs. Nothing was "improved" or redesigned.
 2. **Hero stat counters animate.** Projects **15+**, Years Exp **3+**,
    Technologies **12+** count up from 0 with a smooth ease-out curve when the
    hero stats scroll into view (the "+" is added by CSS).
-3. **Mobile hamburger does nothing.** The original never wired a click handler
-   to `.nav-menu-btn`, so nav links stay hidden on ≤768px. Preserved.
+3. ~~Mobile hamburger does nothing~~ — **Fixed.** The original never wired a
+   click handler to `.nav-menu-btn`, so nav links were unreachable on phones.
+   The hamburger now opens a slide-down menu (with the classic → X animation)
+   on ≤768px, and clicking a link closes it.
 4. **Filter buttons don't filter.** They only toggle the `active` class;
    projects.js never implemented grid filtering. Preserved.
 5. **Project grid starts with 3 cards.** "View All Projects" reveals the rest
@@ -113,6 +115,19 @@ including its bugs. Nothing was "improved" or redesigned.
 10. **Fonts** are Space Grotesk + Space Mono (as loaded by the original
    `index.html`). The SPEC.md references different fonts, but the running site
    used these.
+
+## Mobile responsiveness
+
+The site is responsive across phones, tablets, and desktop:
+
+- **≤768px** — stacked single-column layout, working hamburger menu with a
+  slide-down panel, smaller section padding, and the tech-orbit + code window
+  sized to fit.
+- **≤480px (small phones)** — tighter spacing, full-width buttons, smaller
+  hero title/stats/orbit, and reduced typography so nothing overflows or gets
+  cut off.
+- Horizontal overflow is prevented on the hero visual, code window, and
+  tech-orbit; `overflow-x: hidden` on the body is a safety net.
 
 ## SmokeyCursor component
 
